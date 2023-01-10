@@ -1,8 +1,6 @@
 import React from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
-
-
 function useTodos() {
   const {
     item: todos,
@@ -51,21 +49,26 @@ function useTodos() {
     saveTodos(newTodos);
   };
 
-  return {
-    error,
+  const states = {
     loading,
+    error,
     totalTodos,
     completedTodos,
-    addTodo,
     searchValue,
-    setSearchValue,
     searchedTodos,
-    completeTodo,
-    deleteTodo,
     openModal,
+  };
+
+  const stateUpdaters = {
     setOpenModal,
+    addTodo,
+    deleteTodo,
+    setSearchValue,
+    completeTodo,
     sincronizeTodos,
   };
+
+  return { states, stateUpdaters };
 }
 
 export { useTodos };

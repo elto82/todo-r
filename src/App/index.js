@@ -12,23 +12,29 @@ import { TodosError } from "../TodosError";
 import { TodosLoading } from "../TodosLoading";
 import { EmptyTodos } from "../EmptyTodos";
 import { TodoHeader } from "../TodoHeader";
-import { ChangeAlert,  } from "../ChangeAlert";
+import { ChangeAlert } from "../ChangeAlert";
 function App() {
+  const { states, stateUpdaters } = useTodos();
+
   const {
-    error,
-    loading,
-    searchedTodos,
-    completeTodo,
-    deleteTodo,
-    openModal,
     setOpenModal,
+    addTodo,
+    deleteTodo,
+    setSearchValue,
+    completeTodo,
+    sincronizeTodos,
+  } = stateUpdaters;
+
+  const {
+    loading,
+    error,
     totalTodos,
     completedTodos,
     searchValue,
-    setSearchValue,
-    addTodo,
-    sincronizeTodos,
-  } = useTodos();
+    searchedTodos,
+    openModal,
+  } = states;
+
   return (
     <React.Fragment>
       <TodoHeader loading={loading}>
@@ -37,10 +43,7 @@ function App() {
           completedTodos={completedTodos}
           //loading={loading}
         />
-         <TodoSearch
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
+        <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       </TodoHeader>
 
       <TodoList
@@ -52,9 +55,9 @@ function App() {
         onError={() => <TodosError />}
         onLoading={() => <TodosLoading />}
         onEmptyTodos={() => <EmptyTodos />}
-        onEmptySearchResults={(searchText) => 
+        onEmptySearchResults={(searchText) => (
           <p>No hay resultados para {searchText}</p>
-        }
+        )}
       >
         {(todo) => (
           <TodoItem
@@ -73,7 +76,7 @@ function App() {
       )}
 
       <CreateTodoButtom setOpenModal={setOpenModal} />
-      <ChangeAlert sincronize={sincronizeTodos}/>
+      <ChangeAlert sincronize={sincronizeTodos} />
     </React.Fragment>
   );
 }
